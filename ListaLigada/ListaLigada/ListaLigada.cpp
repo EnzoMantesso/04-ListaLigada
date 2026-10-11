@@ -148,13 +148,10 @@ void inserirElemento()
 	cout << "Digite o elemento: ";
 	cin >> valor;
 
-	// -----------------------------------------------------------------
-	// TAREFA 1: antes de alocar memória, verifique se 'valor' já existe
-	// na lista (dica: use posicaoElemento). Se existir, avise o usuário
-	// e saia da função com return.
-	// Como nada foi alocado até aqui, sair neste ponto NÃO causa
-	// vazamento de memória.
-	// -----------------------------------------------------------------
+	if (posicaoElemento(valor) != NULL) {
+		cout << "Este elemento ja existe" << endl;
+		return;
+	}
 
 	// 2) ...e só depois alocamos memória para o novo nó
 	NO* novo = (NO*)malloc(sizeof(NO));
@@ -184,30 +181,52 @@ void inserirElemento()
 
 void excluirElemento()
 {
-	// -----------------------------------------------------------------
-	// TAREFA 3
-	// 1. Peça o número e use posicaoElemento() para saber se ele existe.
-	//    Se não existir, exiba "ELEMENTO NAO ENCONTRADO" e saia.
-	// 2. Caso A - o nó é o primeiro: atualize 'primeiro' para o segundo
-	//    nó ANTES de liberar o nó removido.
-	// 3. Caso B - meio ou fim: percorra a lista com dois ponteiros
-	//    (anterior e atual), faça anterior->prox apontar para atual->prox
-	//    e só então libere 'atual'.
-	// Lembre-se: todo nó removido precisa de free(), e um nó liberado
-	// nunca mais deve ser usado.
-	// -----------------------------------------------------------------
+	int valor;
+
+	cout << "Digite o numero que deseja excluir: ";
+	cin >> valor;
+
+	NO* atual = posicaoElemento(valor);
+
+	if (atual == NULL) {
+		cout << "elemento não existe na lista" << endl;
+		return;
+	}
+
+	if (atual == primeiro) {
+		primeiro = primeiro->prox;
+		free(atual);
+		return;
+	}
+
+	NO* anterior = primeiro;
+
+	while (anterior->prox != atual) {
+		anterior = anterior->prox;
+	}
+
+	anterior->prox = atual->prox;
+	free(atual);
 }
 
 void buscarElemento()
 {
-	// -----------------------------------------------------------------
-	// TAREFA 2
-	// 1. Peça ao usuário o número a ser buscado.
-	// 2. Chame posicaoElemento(numero).
-	// 3. Retorno diferente de NULL -> exiba "ENCONTRADO"
-	//    Retorno igual a NULL     -> exiba "ELEMENTO NAO ENCONTRADO"
-	// -----------------------------------------------------------------
-}
+
+		int valor;
+
+		cout << "Digite o elemento que deseja buscar: ";
+		cin >> valor;
+
+		NO* pos = posicaoElemento(valor);
+
+		if (pos != NULL) {
+			cout << "elemento está na lista" << endl;
+		}
+		else {
+			cout << "elemento não está na lista" << endl;
+		}
+	}
+
 
 
 
